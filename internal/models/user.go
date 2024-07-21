@@ -12,7 +12,7 @@ type User struct {
 	Name      string         `binding:"required" json:"name"`
 	Email     string         `binding:"required" json:"email"`
 	Age       uint8          `binding:"required" json:"age"`
-	City      *string        `json:"city"` // Quando passado o * quer dizer que esse campo pode ser null
+	City      *string        `json:"city"` // When passed * means that this field can be null
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt"`

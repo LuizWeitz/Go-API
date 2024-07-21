@@ -1,0 +1,204 @@
+definitions:
+  github_com_luizweitz_go-api_internal_models.Error:
+    properties:
+      error:
+        type: string
+    type: object
+  github_com_luizweitz_go-api_internal_models.User:
+    properties:
+      ID:
+        type: string
+      age:
+        type: integer
+      city:
+        description: When passed * means that this field can be null
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - age
+    - email
+    - name
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+info:
+  contact:
+    name: Luiz Weitz
+    url: http://www.swagger.io/support
+  license:
+    name: MIT
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Search All Users Active
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
+            type: array
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+      summary: Search All Users Active
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create User With The Given Input Data
+      parameters:
+      - description: Create user object
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+      summary: Create User
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete User By ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+        "404":
+          description: record not found
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+      summary: Delete User By ID
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get User By ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+        "404":
+          description: record not found
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+      summary: Search User By ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update Data User By ID With The Given Input Data
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Create user object
+        in: body
+        name: Input
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: error
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+        "404":
+          description: record not found
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+        "500":
+          description: internal server error
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+      summary: Update User By ID
+      tags:
+      - users
+swagger: "2.0"
