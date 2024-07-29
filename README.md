@@ -84,6 +84,8 @@ $ cd cmd
 $ go run main.go
 
 # The server will initialize in the <http://localhost:8080>
+# The swagger docs will initialize in the <http://localhost:8080/swagger/index.html#/>
+
 ```
 
 ## :memo: License ##
