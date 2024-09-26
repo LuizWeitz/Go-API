@@ -101,6 +101,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
+                    "409": {
+                        "description": "Error Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -146,7 +152,7 @@ const docTemplate = `{
                         }
                     },
                     "409": {
-                        "description": "Error Conflict ",
+                        "description": "Error Conflict",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }

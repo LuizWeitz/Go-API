@@ -95,7 +95,7 @@ func (uci *UserControllerImpl) GetById(ctx *gin.Context) {
 // @Param			Input	body		models.User		true	"Create user object"
 // @Success		200	{object}	models.User
 // @Failure		400	{object}	models.Error	"Error"
-// @Failure		409 {object}	models.Error	"Error Conflict "
+// @Failure		409 {object}	models.Error	"Error Conflict"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
 func (uci *UserControllerImpl) Create(ctx *gin.Context) {
 
@@ -141,6 +141,7 @@ func (uci *UserControllerImpl) Create(ctx *gin.Context) {
 // @Success		200		{string}	string			"Success"
 // @Failure		400	{object}	models.Error	"Error"
 // @Failure		404		{object}	models.Error	"Record Not Found"
+// @Failure		409 {object}	models.Error	"Error Conflict"
 // @Failure		500		{object}	models.Error	"Internal Server Error"
 func (uci *UserControllerImpl) Update(ctx *gin.Context) {
 

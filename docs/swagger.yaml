@@ -86,7 +86,7 @@ paths:
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "409":
-          description: 'Error Conflict '
+          description: Error Conflict
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "500":
@@ -120,6 +120,10 @@ paths:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "404":
           description: Record Not Found
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
+        "409":
+          description: Error Conflict
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "500":
