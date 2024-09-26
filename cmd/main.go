@@ -5,7 +5,7 @@ import (
 	"github.com/luizweitz/go-api/config"
 	docs "github.com/luizweitz/go-api/docs"
 	"github.com/luizweitz/go-api/internal/controllers"
-	"github.com/luizweitz/go-api/internal/models"
+	"github.com/luizweitz/go-api/internal/migrations"
 	"github.com/luizweitz/go-api/internal/repositories"
 	"github.com/luizweitz/go-api/internal/services"
 	swaggerFiles "github.com/swaggo/files"
@@ -18,6 +18,7 @@ var db *gorm.DB
 func init() {
 	config.LoadEnvVariables()
 	db = config.ConnectDB()
+	migrations.AutoMigrateAll(db)
 
 }
 
@@ -33,8 +34,6 @@ func main() {
 	docs.SwaggerInfo.Host = "localhost:8080"
 	docs.SwaggerInfo.BasePath = "/v1"
 	docs.SwaggerInfo.Schemes = []string{"http"}
-
-	db.Table("users").AutoMigrate(&models.User{})
 
 	userRepository := repositories.NewUserRepository(db)
 	userService := services.NewUserService(userRepository)
