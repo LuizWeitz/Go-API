@@ -45,9 +45,9 @@ func main() {
 	v1 := router.Group("/v1")
 	{
 		v1.POST("/users", userController.Create)
+		v1.PUT("/users", userController.Update)
 		v1.GET("/users", userController.GetAll)
 		v1.GET("/users/:id", userController.GetById)
-		v1.PUT("/users/:id", userController.Update)
 		v1.DELETE("/users/:id", userController.Delete)
 	}
 

@@ -24,7 +24,7 @@ const docTemplate = `{
     "paths": {
         "/users": {
             "get": {
-                "description": "Search All Users Active",
+                "description": "Search All Users",
                 "consumes": [
                     "application/json"
                 ],
@@ -34,7 +34,7 @@ const docTemplate = `{
                 "tags": [
                     "users"
                 ],
-                "summary": "Search All Users Active",
+                "summary": "Search All Users",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -46,13 +46,63 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "error",
+                        "description": "Error",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
                     "500": {
-                        "description": "internal server error",
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update Data User By ID With The Given Input Data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update User By ID",
+                "parameters": [
+                    {
+                        "description": "Update user object",
+                        "name": "Input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Record Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -90,13 +140,19 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "error",
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Error Conflict ",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
                     "500": {
-                        "description": "internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -134,76 +190,19 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "error",
+                        "description": "Error",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
                     "404": {
-                        "description": "record not found",
+                        "description": "Eecord Not Found",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
                     "500": {
-                        "description": "internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update Data User By ID With The Given Input Data",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "Update User By ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Create user object",
-                        "name": "Input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
-                        }
-                    },
-                    "404": {
-                        "description": "record not found",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -233,25 +232,25 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "success",
+                        "description": "Success",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "400": {
-                        "description": "error",
+                        "description": "Error",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
                     "404": {
-                        "description": "record not found",
+                        "description": "Record Not Found",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
                     "500": {
-                        "description": "internal server error",
+                        "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -264,7 +263,13 @@ const docTemplate = `{
         "github_com_luizweitz_go-api_internal_models.Error": {
             "type": "object",
             "properties": {
-                "error": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
                     "type": "string"
                 }
             }
@@ -277,23 +282,20 @@ const docTemplate = `{
                 "name"
             ],
             "properties": {
-                "ID": {
-                    "type": "string"
-                },
                 "age": {
                     "type": "integer"
                 },
                 "city": {
-                    "description": "When passed * means that this field can be null",
+                    "description": "can be null",
                     "type": "string"
                 },
                 "createdAt": {
                     "type": "string"
                 },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
                 "email": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "name": {
@@ -301,18 +303,6 @@ const docTemplate = `{
                 },
                 "updatedAt": {
                     "type": "string"
-                }
-            }
-        },
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
                 }
             }
         }

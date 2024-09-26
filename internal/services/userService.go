@@ -15,29 +15,29 @@ type UserService interface {
 }
 
 type UserServiceImpl struct {
-	userrepositories repositories.UserRepository
+	userRepository repositories.UserRepository
 }
 
-func NewUserService(Userrepositories repositories.UserRepository) UserService {
-	return &UserServiceImpl{userrepositories: Userrepositories}
+func NewUserService(userRepository repositories.UserRepository) UserService {
+	return &UserServiceImpl{userRepository: userRepository}
 }
 
-func (us *UserServiceImpl) Create(user *models.User) (*models.User, error) {
-	return us.userrepositories.Create(user)
+func (usi *UserServiceImpl) Create(user *models.User) (*models.User, error) {
+	return usi.userRepository.Create(user)
 }
 
-func (us *UserServiceImpl) Delete(id uuid.UUID) error {
-	return us.userrepositories.Delete(id)
+func (usi *UserServiceImpl) Delete(id uuid.UUID) error {
+	return usi.userRepository.Delete(id)
 }
 
-func (us *UserServiceImpl) GetAll() ([]*models.User, error) {
-	return us.userrepositories.GetAll()
+func (usi *UserServiceImpl) GetAll() ([]*models.User, error) {
+	return usi.userRepository.GetAll()
 }
 
-func (us *UserServiceImpl) GetByID(id uuid.UUID) (*models.User, error) {
-	return us.userrepositories.GetById(id)
+func (usi *UserServiceImpl) GetByID(id uuid.UUID) (*models.User, error) {
+	return usi.userRepository.GetByID(id)
 }
 
-func (us *UserServiceImpl) Update(user *models.User) error {
-	return us.userrepositories.Update(user)
+func (usi *UserServiceImpl) Update(user *models.User) error {
+	return usi.userRepository.Update(user)
 }
