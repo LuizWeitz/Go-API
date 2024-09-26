@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/luizweitz/go-api/config"
 	docs "github.com/luizweitz/go-api/docs"
@@ -53,6 +55,8 @@ func main() {
 	urlSwaggerJson := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, urlSwaggerJson))
 
-	router.Run(":8080")
+	if err := router.Run(":8080"); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
 
 }
