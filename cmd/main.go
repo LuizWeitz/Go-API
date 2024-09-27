@@ -44,13 +44,12 @@ func main() {
 	router := gin.Default()
 
 	v1 := router.Group("/v1")
-	{
-		v1.POST("/users", userController.Create)
-		v1.PUT("/users", userController.Update)
-		v1.GET("/users", userController.GetAll)
-		v1.GET("/users/:id", userController.GetById)
-		v1.DELETE("/users/:id", userController.Delete)
-	}
+
+	v1.POST("/users", userController.Create)
+	v1.PUT("/users", userController.Update)
+	v1.GET("/users", userController.GetAll)
+	v1.GET("/users/:id", userController.GetById)
+	v1.DELETE("/users/:id", userController.Delete)
 
 	urlSwaggerJson := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, urlSwaggerJson))

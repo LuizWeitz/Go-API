@@ -34,12 +34,6 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
-                        }
-                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -79,7 +73,7 @@
                         }
                     },
                     "400": {
-                        "description": "Error",
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -135,7 +129,7 @@
                         }
                     },
                     "400": {
-                        "description": "Error",
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -184,14 +178,8 @@
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.User"
                         }
                     },
-                    "400": {
-                        "description": "Error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
-                        }
-                    },
                     "404": {
-                        "description": "Eecord Not Found",
+                        "description": "Record Not Found",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -230,12 +218,6 @@
                         "description": "Success",
                         "schema": {
                             "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
                     "404": {

@@ -45,12 +45,6 @@ const docTemplate = `{
                             }
                         }
                     },
-                    "400": {
-                        "description": "Error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
-                        }
-                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -90,7 +84,7 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Error",
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -146,7 +140,7 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Error",
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -195,14 +189,8 @@ const docTemplate = `{
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.User"
                         }
                     },
-                    "400": {
-                        "description": "Error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
-                        }
-                    },
                     "404": {
-                        "description": "Eecord Not Found",
+                        "description": "Record Not Found",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -241,12 +229,6 @@ const docTemplate = `{
                         "description": "Success",
                         "schema": {
                             "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Error",
-                        "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
                     "404": {

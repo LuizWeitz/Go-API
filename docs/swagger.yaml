@@ -52,10 +52,6 @@ paths:
             items:
               $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
             type: array
-        "400":
-          description: Error
-          schema:
-            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "500":
           description: Internal Server Error
           schema:
@@ -82,7 +78,7 @@ paths:
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
         "400":
-          description: Error
+          description: Bad Request
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "409":
@@ -115,7 +111,7 @@ paths:
           schema:
             type: string
         "400":
-          description: Error
+          description: Bad Request
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "404":
@@ -151,10 +147,6 @@ paths:
           description: Success
           schema:
             type: string
-        "400":
-          description: Error
-          schema:
-            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "404":
           description: Record Not Found
           schema:
@@ -183,12 +175,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
-        "400":
-          description: Error
-          schema:
-            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "404":
-          description: Eecord Not Found
+          description: Record Not Found
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "500":
