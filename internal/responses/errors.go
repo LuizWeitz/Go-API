@@ -1,4 +1,4 @@
-package helper
+package responses
 
 import (
 	"net/http"
@@ -7,7 +7,7 @@ import (
 	"github.com/luizweitz/go-api/internal/models"
 )
 
-func ErrDuplicatedKey(ctx *gin.Context, field string) {
+func ErrorDuplicatedKey(ctx *gin.Context, field string) {
 	ctx.JSON(http.StatusConflict, models.Error{
 		Code:    http.StatusConflict,
 		Message: field + " already exists",
@@ -15,7 +15,7 @@ func ErrDuplicatedKey(ctx *gin.Context, field string) {
 	})
 }
 
-func ErrBindJson(ctx *gin.Context, err error) {
+func ErrorBindJson(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusBadRequest, models.Error{
 		Code:    http.StatusBadRequest,
 		Message: err.Error(),
@@ -23,7 +23,7 @@ func ErrBindJson(ctx *gin.Context, err error) {
 	})
 }
 
-func ErrNotFound(ctx *gin.Context, model string) {
+func ErrorNotFound(ctx *gin.Context, model string) {
 	ctx.JSON(http.StatusNotFound, models.Error{
 		Code:    http.StatusNotFound,
 		Message: model + " not found",
@@ -31,15 +31,15 @@ func ErrNotFound(ctx *gin.Context, model string) {
 	})
 }
 
-func ErrInternalServer(ctx *gin.Context) {
+func ErrorInternalServer(ctx *gin.Context) {
 	ctx.JSON(http.StatusInternalServerError, models.Error{
 		Code:    http.StatusInternalServerError,
 		Message: "internal server error",
-		Status:  "INTERNAL",
+		Status:  "INTERNAL_SERVER_ERROR",
 	})
 }
 
-func ErrBadRequest(ctx *gin.Context, message string) {
+func ErrorBadRequest(ctx *gin.Context, message string) {
 	ctx.JSON(http.StatusBadRequest, models.Error{
 		Code:    http.StatusBadRequest,
 		Message: message,

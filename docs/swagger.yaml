@@ -8,6 +8,33 @@ definitions:
       status:
         type: string
     type: object
+  github_com_luizweitz_go-api_internal_models.Success:
+    properties:
+      code:
+        type: integer
+      status:
+        type: string
+    type: object
+  github_com_luizweitz_go-api_internal_models.SuccessData-github_com_luizweitz_go-api_internal_models_User:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
+      status:
+        type: string
+    type: object
+  github_com_luizweitz_go-api_internal_models.SuccessList-github_com_luizweitz_go-api_internal_models_User:
+    properties:
+      code:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
+        type: array
+      status:
+        type: string
+    type: object
   github_com_luizweitz_go-api_internal_models.User:
     properties:
       age:
@@ -49,9 +76,7 @@ paths:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
-            type: array
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.SuccessList-github_com_luizweitz_go-api_internal_models_User'
         "500":
           description: Internal Server Error
           schema:
@@ -73,10 +98,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
-            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.SuccessData-github_com_luizweitz_go-api_internal_models_User'
         "400":
           description: Bad Request
           schema:
@@ -107,15 +132,15 @@ paths:
       - application/json
       responses:
         "200":
-          description: Success
+          description: Updated
           schema:
-            type: string
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.SuccessData-github_com_luizweitz_go-api_internal_models_User'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "404":
-          description: Record Not Found
+          description: Not Found
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "409":
@@ -144,11 +169,15 @@ paths:
       - application/json
       responses:
         "200":
-          description: Success
+          description: Deleted
           schema:
-            type: string
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Success'
+        "400":
+          description: Bed Request
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "404":
-          description: Record Not Found
+          description: Not Found
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "500":
@@ -174,9 +203,13 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.User'
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.SuccessData-github_com_luizweitz_go-api_internal_models_User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "404":
-          description: Record Not Found
+          description: Not Found
           schema:
             $ref: '#/definitions/github_com_luizweitz_go-api_internal_models.Error'
         "500":

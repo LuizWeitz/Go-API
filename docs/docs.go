@@ -39,10 +39,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.User"
-                            }
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.SuccessList-github_com_luizweitz_go-api_internal_models_User"
                         }
                     },
                     "500": {
@@ -78,9 +75,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "Updated",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.SuccessData-github_com_luizweitz_go-api_internal_models_User"
                         }
                     },
                     "400": {
@@ -90,7 +87,7 @@ const docTemplate = `{
                         }
                     },
                     "404": {
-                        "description": "Record Not Found",
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -133,10 +130,10 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.User"
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.SuccessData-github_com_luizweitz_go-api_internal_models_User"
                         }
                     },
                     "400": {
@@ -186,11 +183,17 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.User"
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.SuccessData-github_com_luizweitz_go-api_internal_models_User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
                     "404": {
-                        "description": "Record Not Found",
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -226,13 +229,19 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "Deleted",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Success"
+                        }
+                    },
+                    "400": {
+                        "description": "Bed Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
                     },
                     "404": {
-                        "description": "Record Not Found",
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.Error"
                         }
@@ -256,6 +265,48 @@ const docTemplate = `{
                 },
                 "message": {
                     "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_luizweitz_go-api_internal_models.Success": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_luizweitz_go-api_internal_models.SuccessData-github_com_luizweitz_go-api_internal_models_User": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.User"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_luizweitz_go-api_internal_models.SuccessList-github_com_luizweitz_go-api_internal_models_User": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_luizweitz_go-api_internal_models.User"
+                    }
                 },
                 "status": {
                     "type": "string"

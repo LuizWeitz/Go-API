@@ -2,13 +2,12 @@ package controllers
 
 import (
 	"errors"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgconn"
-	"github.com/luizweitz/go-api/internal/helper"
 	"github.com/luizweitz/go-api/internal/models"
+	"github.com/luizweitz/go-api/internal/responses"
 	"github.com/luizweitz/go-api/internal/services"
 	"gorm.io/gorm"
 )
@@ -35,7 +34,7 @@ func NewUserController(UserService services.UserService) UserController {
 // @Tags			users
 // @Accept			json
 // @Produce		json
-// @Success		200	{array}		models.User
+// @Success		200	{object}    models.SuccessList[models.User] "OK"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
 func (uci *UserControllerImpl) GetAll(ctx *gin.Context) {
 
@@ -44,11 +43,12 @@ func (uci *UserControllerImpl) GetAll(ctx *gin.Context) {
 	users, errGet := uci.userService.GetAll()
 
 	if errGet != nil {
-		helper.ErrInternalServer(ctx)
+		responses.ErrorInternalServer(ctx)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, users)
+	responses.List(ctx, users)
+
 }
 
 // @Summary		Search User By ID
@@ -58,15 +58,16 @@ func (uci *UserControllerImpl) GetAll(ctx *gin.Context) {
 // @Accept			json
 // @Produce		json
 // @Param			id	path		string	true	"User ID"
-// @Success		200	{object}	models.User
-// @Failure		404	{object}	models.Error	"Record Not Found"
+// @Success		200	{object}	models.SuccessData[models.User] "OK"
+// @Failure		400	{object}	models.Error	"Bad Request"
+// @Failure		404	{object}	models.Error	"Not Found"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
 func (uci *UserControllerImpl) GetById(ctx *gin.Context) {
 
 	userID, errParse := uuid.Parse(ctx.Param("id"))
 
 	if errParse != nil {
-		helper.ErrInternalServer(ctx)
+		responses.ErrorBadRequest(ctx, "UUID invalid")
 		return
 	}
 
@@ -77,15 +78,16 @@ func (uci *UserControllerImpl) GetById(ctx *gin.Context) {
 	if errGet != nil {
 
 		if errors.Is(errGet, gorm.ErrRecordNotFound) {
-			helper.ErrNotFound(ctx, "user")
+			responses.ErrorNotFound(ctx, "user")
 			return
 		}
 
-		helper.ErrInternalServer(ctx)
+		responses.ErrorInternalServer(ctx)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, user)
+	responses.Ok(ctx, user)
+
 }
 
 // @Summary		Create User
@@ -95,7 +97,7 @@ func (uci *UserControllerImpl) GetById(ctx *gin.Context) {
 // @Accept			json
 // @Produce		json
 // @Param			Input	body		models.User		true	"Create user object"
-// @Success		200	{object}	models.User
+// @Success		201	{object}	models.SuccessData[models.User] "Created"
 // @Failure		400	{object}	models.Error	"Bad Request"
 // @Failure		409 {object}	models.Error	"Error Conflict"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
@@ -104,7 +106,7 @@ func (uci *UserControllerImpl) Create(ctx *gin.Context) {
 	var newUser *models.User
 
 	if errBind := ctx.ShouldBindJSON(&newUser); errBind != nil {
-		helper.ErrBindJson(ctx, errBind)
+		responses.ErrorBindJson(ctx, errBind)
 		return
 	}
 
@@ -117,19 +119,19 @@ func (uci *UserControllerImpl) Create(ctx *gin.Context) {
 		if errors.As(errCreate, &pgErr) {
 
 			if pgErr.Code == "23505" {
-				helper.ErrDuplicatedKey(ctx, pgErr.ConstraintName)
+				responses.ErrorDuplicatedKey(ctx, pgErr.ConstraintName)
 				return
 			}
 
-			helper.ErrBadRequest(ctx, pgErr.Message)
+			responses.ErrorBadRequest(ctx, pgErr.Message)
 			return
 		}
 
-		helper.ErrInternalServer(ctx)
+		responses.ErrorInternalServer(ctx)
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, user)
+	responses.Create(ctx, user)
 }
 
 // @Summary		Update User By ID
@@ -139,9 +141,9 @@ func (uci *UserControllerImpl) Create(ctx *gin.Context) {
 // @Accept			json
 // @Produce		json
 // @Param			Input	body		models.User		true	"Update user object"
-// @Success		200		{string}	string			"Success"
+// @Success		200	{object}	models.SuccessData[models.User] "Updated"
 // @Failure		400	{object}	models.Error	"Bad Request"
-// @Failure		404		{object}	models.Error	"Record Not Found"
+// @Failure		404		{object}	models.Error	"Not Found"
 // @Failure		409 {object}	models.Error	"Error Conflict"
 // @Failure		500		{object}	models.Error	"Internal Server Error"
 func (uci *UserControllerImpl) Update(ctx *gin.Context) {
@@ -149,17 +151,17 @@ func (uci *UserControllerImpl) Update(ctx *gin.Context) {
 	var user *models.User
 
 	if errBind := ctx.ShouldBindJSON(&user); errBind != nil {
-		helper.ErrBindJson(ctx, errBind)
+		responses.ErrorBindJson(ctx, errBind)
 		return
 	}
 
 	if _, errGet := uci.userService.GetByID(user.ID); errGet != nil {
 		if errors.Is(errGet, gorm.ErrRecordNotFound) {
-			helper.ErrNotFound(ctx, "user")
+			responses.ErrorNotFound(ctx, "user")
 			return
 		}
 
-		helper.ErrInternalServer(ctx)
+		responses.ErrorInternalServer(ctx)
 		return
 	}
 
@@ -170,20 +172,20 @@ func (uci *UserControllerImpl) Update(ctx *gin.Context) {
 		if errors.As(errUpdate, &pgErr) {
 
 			if pgErr.Code == "23505" {
-				helper.ErrDuplicatedKey(ctx, pgErr.ConstraintName)
+				responses.ErrorDuplicatedKey(ctx, pgErr.ConstraintName)
 				return
 			}
 
-			helper.ErrBadRequest(ctx, pgErr.Message)
+			responses.ErrorBadRequest(ctx, pgErr.Message)
 			return
 		}
 
-		helper.ErrInternalServer(ctx)
+		responses.ErrorInternalServer(ctx)
 		return
 
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"result": "success"})
+	responses.Update(ctx, user)
 }
 
 // @Summary		Delete User By ID
@@ -193,34 +195,36 @@ func (uci *UserControllerImpl) Update(ctx *gin.Context) {
 // @Accept			json
 // @Produce		json
 // @Param			id	path		string	true	"User ID"
-// @Success		200	{string}		string      "Success"
-// @Failure		404	{object}	models.Error	"Record Not Found"
+// @Success		200	{object}	models.Success[models.User] "Deleted"
+// @Failure		400	{object}	models.Error	"Bed Request"
+// @Failure		404	{object}	models.Error	"Not Found"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
 func (uci *UserControllerImpl) Delete(ctx *gin.Context) {
 
 	userID, errParse := uuid.Parse(ctx.Param("id"))
 
 	if errParse != nil {
-		helper.ErrInternalServer(ctx)
+		responses.ErrorBadRequest(ctx, "UUID invalid")
 		return
 	}
 
 	if _, errGet := uci.userService.GetByID(userID); errGet != nil {
 
 		if errors.Is(errGet, gorm.ErrRecordNotFound) {
-			helper.ErrNotFound(ctx, "user")
+			responses.ErrorNotFound(ctx, "user")
 			return
 		}
 
-		helper.ErrInternalServer(ctx)
+		responses.ErrorInternalServer(ctx)
 		return
 
 	}
 
 	if errDelete := uci.userService.Delete(userID); errDelete != nil {
-		helper.ErrInternalServer(ctx)
+		responses.ErrorInternalServer(ctx)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"result": "success"})
+	responses.Delete(ctx)
+
 }
