@@ -20,12 +20,12 @@ type UserController interface {
 	Delete(ctx *gin.Context)
 }
 
-type UserControllerImpl struct {
+type UserControllerImplementation struct {
 	userService services.UserService
 }
 
 func NewUserController(UserService services.UserService) UserController {
-	return &UserControllerImpl{userService: UserService}
+	return &UserControllerImplementation{userService: UserService}
 }
 
 // @Summary		Search All Users
@@ -36,7 +36,7 @@ func NewUserController(UserService services.UserService) UserController {
 // @Produce		json
 // @Success		200	{object}    models.SuccessList[models.User] "OK"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
-func (uci *UserControllerImpl) GetAll(ctx *gin.Context) {
+func (uci *UserControllerImplementation) GetAll(ctx *gin.Context) {
 
 	var users []*models.User
 
@@ -62,7 +62,7 @@ func (uci *UserControllerImpl) GetAll(ctx *gin.Context) {
 // @Failure		400	{object}	models.Error	"Bad Request"
 // @Failure		404	{object}	models.Error	"Not Found"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
-func (uci *UserControllerImpl) GetById(ctx *gin.Context) {
+func (uci *UserControllerImplementation) GetById(ctx *gin.Context) {
 
 	userID, errParse := uuid.Parse(ctx.Param("id"))
 
@@ -101,7 +101,7 @@ func (uci *UserControllerImpl) GetById(ctx *gin.Context) {
 // @Failure		400	{object}	models.Error	"Bad Request"
 // @Failure		409 {object}	models.Error	"Error Conflict"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
-func (uci *UserControllerImpl) Create(ctx *gin.Context) {
+func (uci *UserControllerImplementation) Create(ctx *gin.Context) {
 
 	var newUser *models.User
 
@@ -146,7 +146,7 @@ func (uci *UserControllerImpl) Create(ctx *gin.Context) {
 // @Failure		404		{object}	models.Error	"Not Found"
 // @Failure		409 {object}	models.Error	"Error Conflict"
 // @Failure		500		{object}	models.Error	"Internal Server Error"
-func (uci *UserControllerImpl) Update(ctx *gin.Context) {
+func (uci *UserControllerImplementation) Update(ctx *gin.Context) {
 
 	var user *models.User
 
@@ -199,7 +199,7 @@ func (uci *UserControllerImpl) Update(ctx *gin.Context) {
 // @Failure		400	{object}	models.Error	"Bed Request"
 // @Failure		404	{object}	models.Error	"Not Found"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
-func (uci *UserControllerImpl) Delete(ctx *gin.Context) {
+func (uci *UserControllerImplementation) Delete(ctx *gin.Context) {
 
 	userID, errParse := uuid.Parse(ctx.Param("id"))
 

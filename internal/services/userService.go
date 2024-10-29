@@ -14,30 +14,30 @@ type UserService interface {
 	Delete(id uuid.UUID) error
 }
 
-type UserServiceImpl struct {
+type UserServiceImplementation struct {
 	userRepository repositories.UserRepository
 }
 
 func NewUserService(userRepository repositories.UserRepository) UserService {
-	return &UserServiceImpl{userRepository: userRepository}
+	return &UserServiceImplementation{userRepository: userRepository}
 }
 
-func (usi *UserServiceImpl) Create(user *models.User) (*models.User, error) {
+func (usi *UserServiceImplementation) Create(user *models.User) (*models.User, error) {
 	return usi.userRepository.Create(user)
 }
 
-func (usi *UserServiceImpl) Delete(id uuid.UUID) error {
+func (usi *UserServiceImplementation) Delete(id uuid.UUID) error {
 	return usi.userRepository.Delete(id)
 }
 
-func (usi *UserServiceImpl) GetAll() ([]*models.User, error) {
+func (usi *UserServiceImplementation) GetAll() ([]*models.User, error) {
 	return usi.userRepository.GetAll()
 }
 
-func (usi *UserServiceImpl) GetByID(id uuid.UUID) (*models.User, error) {
+func (usi *UserServiceImplementation) GetByID(id uuid.UUID) (*models.User, error) {
 	return usi.userRepository.GetByID(id)
 }
 
-func (usi *UserServiceImpl) Update(user *models.User) error {
+func (usi *UserServiceImplementation) Update(user *models.User) error {
 	return usi.userRepository.Update(user)
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/luizweitz/go-api/config"
 	docs "github.com/luizweitz/go-api/docs"
 	"github.com/luizweitz/go-api/internal/controllers"
+	"github.com/luizweitz/go-api/internal/middlewares"
 	"github.com/luizweitz/go-api/internal/migrations"
 	"github.com/luizweitz/go-api/internal/repositories"
 	"github.com/luizweitz/go-api/internal/services"
@@ -41,7 +42,11 @@ func main() {
 	userService := services.NewUserService(userRepository)
 	userController := controllers.NewUserController(userService)
 
+	unavailableMiddleware := middlewares.NewUnavailableMiddleware(db)
+
 	router := gin.Default()
+
+	router.Use(unavailableMiddleware.CheckDatabase())
 
 	v1 := router.Group("/v1")
 
