@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/luizweitz/go-api/config"
@@ -31,6 +32,8 @@ func init() {
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
 
+	gin.SetMode(os.Getenv("GIN_MODE"))
+
 	docs.SwaggerInfo.Title = "Go API Master Example"
 	docs.SwaggerInfo.Description = "This a project is a example of API Rest in Go using Gin, Gorm & PostgreSQL."
 	docs.SwaggerInfo.Version = "1.0"
@@ -47,6 +50,8 @@ func main() {
 	router := gin.Default()
 
 	router.Use(unavailableMiddleware.CheckDatabase())
+
+	router.Use(middlewares.Timeout())
 
 	v1 := router.Group("/v1")
 

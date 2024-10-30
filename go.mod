@@ -13,6 +13,8 @@ require (
 
 require github.com/swaggo/files v1.0.1
 
+require github.com/gin-contrib/timeout v1.0.1
+
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/bytedance/sonic v1.11.9 // indirect

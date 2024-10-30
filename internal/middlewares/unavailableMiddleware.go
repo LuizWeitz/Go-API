@@ -23,18 +23,18 @@ func NewUnavailableMiddleware(db *gorm.DB) UnavailableMiddleware {
 
 func (umi *UnavailableMiddlewareImplementation) CheckDatabase() gin.HandlerFunc {
 
-	return func(ctx *gin.Context) {
+	return func(c *gin.Context) {
 
 		database, errConnect := umi.db.DB()
 
 		if errConnect != nil {
 			log.Println("Error Connect", errConnect)
-			ctx.JSON(http.StatusServiceUnavailable, models.Error{
+			c.JSON(http.StatusServiceUnavailable, models.Error{
 				Code:    http.StatusServiceUnavailable,
-				Message: "service unavailable.",
+				Message: "service unavailable",
 				Status:  "UNAVAILABLE",
 			})
-			ctx.Abort()
+			c.Abort()
 			return
 		}
 
@@ -42,16 +42,16 @@ func (umi *UnavailableMiddlewareImplementation) CheckDatabase() gin.HandlerFunc 
 
 		if errPing != nil {
 			log.Println("Error Ping :", errPing)
-			ctx.JSON(http.StatusServiceUnavailable, models.Error{
+			c.JSON(http.StatusServiceUnavailable, models.Error{
 				Code:    http.StatusServiceUnavailable,
-				Message: "service unavailable.",
+				Message: "service unavailable",
 				Status:  "UNAVAILABLE",
 			})
-			ctx.Abort()
+			c.Abort()
 			return
 		}
 
-		ctx.Next()
+		c.Next()
 
 	}
 
