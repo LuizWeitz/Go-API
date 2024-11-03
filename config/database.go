@@ -19,7 +19,7 @@ func ConnectDB() *gorm.DB {
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		log.Fatal("Error connect to DataBase")
+		log.Fatal("Error connect to DataBase.")
 	}
 
 	return db
