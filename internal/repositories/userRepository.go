@@ -14,51 +14,51 @@ type UserRepository interface {
 	Delete(id uuid.UUID) error
 }
 
-type UserRepositoryImplementation struct {
+type UserRepositoryImpl struct {
 	db *gorm.DB
 }
 
 func NewUserRepository(db *gorm.DB) UserRepository {
 
-	return &UserRepositoryImplementation{db: db}
+	return &UserRepositoryImpl{db: db}
 }
 
-func (uri *UserRepositoryImplementation) Create(user *models.User) (*models.User, error) {
+func (u *UserRepositoryImpl) Create(user *models.User) (*models.User, error) {
 
-	if err := uri.db.Create(user).Error; err != nil {
+	if err := u.db.Create(user).Error; err != nil {
 		return nil, err
 	}
 
 	return user, nil
 }
 
-func (uri *UserRepositoryImplementation) Delete(id uuid.UUID) error {
-	if err := uri.db.Delete(&models.User{}, id).Error; err != nil {
+func (u *UserRepositoryImpl) Delete(id uuid.UUID) error {
+	if err := u.db.Delete(&models.User{}, id).Error; err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (uri *UserRepositoryImplementation) GetAll() (users []*models.User, err error) {
-	if err := uri.db.Find(&users).Error; err != nil {
+func (u *UserRepositoryImpl) GetAll() (users []*models.User, err error) {
+	if err := u.db.Find(&users).Error; err != nil {
 		return nil, err
 	}
 
 	return users, nil
 }
 
-func (uri *UserRepositoryImplementation) GetByID(id uuid.UUID) (user *models.User, err error) {
-	if err := uri.db.First(&user, id).Error; err != nil {
+func (u *UserRepositoryImpl) GetByID(id uuid.UUID) (user *models.User, err error) {
+	if err := u.db.First(&user, id).Error; err != nil {
 		return nil, err
 	}
 
 	return user, nil
 }
 
-func (uri *UserRepositoryImplementation) Update(user *models.User) error {
+func (u *UserRepositoryImpl) Update(user *models.User) error {
 
-	if err := uri.db.Model(&user).Updates(user).Error; err != nil {
+	if err := u.db.Model(&user).Updates(user).Error; err != nil {
 		return err
 	}
 

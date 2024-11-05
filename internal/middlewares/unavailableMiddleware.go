@@ -13,15 +13,15 @@ type UnavailableMiddleware interface {
 	CheckDatabase() gin.HandlerFunc
 }
 
-type UnavailableMiddlewareImplementation struct {
+type UnavailableMiddlewareImpl struct {
 	db *gorm.DB
 }
 
 func NewUnavailableMiddleware(db *gorm.DB) UnavailableMiddleware {
-	return &UnavailableMiddlewareImplementation{db: db}
+	return &UnavailableMiddlewareImpl{db: db}
 }
 
-func (umi *UnavailableMiddlewareImplementation) CheckDatabase() gin.HandlerFunc {
+func (umi *UnavailableMiddlewareImpl) CheckDatabase() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 

@@ -20,12 +20,12 @@ type UserController interface {
 	Delete(c *gin.Context)
 }
 
-type UserControllerImplementation struct {
+type UserControllerImpl struct {
 	userService services.UserService
 }
 
 func NewUserController(UserService services.UserService) UserController {
-	return &UserControllerImplementation{userService: UserService}
+	return &UserControllerImpl{userService: UserService}
 }
 
 // @Summary		Search All Users
@@ -36,11 +36,11 @@ func NewUserController(UserService services.UserService) UserController {
 // @Produce		json
 // @Success		200	{object}    models.SuccessList[models.User] "OK"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
-func (uci *UserControllerImplementation) GetAll(c *gin.Context) {
+func (u *UserControllerImpl) GetAll(c *gin.Context) {
 
 	var users []*models.User
 
-	users, errGet := uci.userService.GetAll()
+	users, errGet := u.userService.GetAll()
 
 	if errGet != nil {
 		responses.ErrorInternalServer(c)
@@ -62,7 +62,7 @@ func (uci *UserControllerImplementation) GetAll(c *gin.Context) {
 // @Failure		400	{object}	models.Error	"Bad Request"
 // @Failure		404	{object}	models.Error	"Not Found"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
-func (uci *UserControllerImplementation) GetById(c *gin.Context) {
+func (u *UserControllerImpl) GetById(c *gin.Context) {
 
 	userID, errParse := uuid.Parse(c.Param("id"))
 
@@ -74,7 +74,7 @@ func (uci *UserControllerImplementation) GetById(c *gin.Context) {
 
 	var user *models.User
 
-	user, errGet := uci.userService.GetByID(userID)
+	user, errGet := u.userService.GetByID(userID)
 
 	if errGet != nil {
 
@@ -105,7 +105,7 @@ func (uci *UserControllerImplementation) GetById(c *gin.Context) {
 // @Failure		400	{object}	models.Error	"Bad Request"
 // @Failure		409 {object}	models.Error	"Error Conflict"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
-func (uci *UserControllerImplementation) Create(c *gin.Context) {
+func (u *UserControllerImpl) Create(c *gin.Context) {
 
 	var newUser *models.User
 
@@ -114,7 +114,7 @@ func (uci *UserControllerImplementation) Create(c *gin.Context) {
 		return
 	}
 
-	user, errCreate := uci.userService.Create(newUser)
+	user, errCreate := u.userService.Create(newUser)
 
 	if errCreate != nil {
 
@@ -150,7 +150,7 @@ func (uci *UserControllerImplementation) Create(c *gin.Context) {
 // @Failure		404		{object}	models.Error	"Not Found"
 // @Failure		409 {object}	models.Error	"Error Conflict"
 // @Failure		500		{object}	models.Error	"Internal Server Error"
-func (uci *UserControllerImplementation) Update(c *gin.Context) {
+func (u *UserControllerImpl) Update(c *gin.Context) {
 
 	var user *models.User
 
@@ -159,7 +159,7 @@ func (uci *UserControllerImplementation) Update(c *gin.Context) {
 		return
 	}
 
-	if _, errGet := uci.userService.GetByID(user.ID); errGet != nil {
+	if _, errGet := u.userService.GetByID(user.ID); errGet != nil {
 		if errors.Is(errGet, gorm.ErrRecordNotFound) {
 			responses.ErrorNotFound(c, "user")
 			return
@@ -169,7 +169,7 @@ func (uci *UserControllerImplementation) Update(c *gin.Context) {
 		return
 	}
 
-	if errUpdate := uci.userService.Update(user); errUpdate != nil {
+	if errUpdate := u.userService.Update(user); errUpdate != nil {
 
 		var pgErr *pgconn.PgError
 
@@ -203,7 +203,7 @@ func (uci *UserControllerImplementation) Update(c *gin.Context) {
 // @Failure		400	{object}	models.Error	"Bed Request"
 // @Failure		404	{object}	models.Error	"Not Found"
 // @Failure		500	{object}	models.Error	"Internal Server Error"
-func (uci *UserControllerImplementation) Delete(c *gin.Context) {
+func (u *UserControllerImpl) Delete(c *gin.Context) {
 
 	userID, errParse := uuid.Parse(c.Param("id"))
 
@@ -212,7 +212,7 @@ func (uci *UserControllerImplementation) Delete(c *gin.Context) {
 		return
 	}
 
-	if _, errGet := uci.userService.GetByID(userID); errGet != nil {
+	if _, errGet := u.userService.GetByID(userID); errGet != nil {
 
 		if errors.Is(errGet, gorm.ErrRecordNotFound) {
 			responses.ErrorNotFound(c, "user")
@@ -224,7 +224,7 @@ func (uci *UserControllerImplementation) Delete(c *gin.Context) {
 
 	}
 
-	if errDelete := uci.userService.Delete(userID); errDelete != nil {
+	if errDelete := u.userService.Delete(userID); errDelete != nil {
 		responses.ErrorInternalServer(c)
 		return
 	}
